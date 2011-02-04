@@ -4,7 +4,7 @@ Vagrant::Config.run do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "base"
+  config.vm.box = "lucid32"
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
@@ -19,7 +19,7 @@ Vagrant::Config.run do |config|
 
   # Forward a port from the guest to the host, which allows for outside
   # computers to access the VM, whereas host only networking does not.
-  # config.vm.forward_port "http", 80, 8080
+  config.vm.forward_port "http", 80, 8080
 
   # Share an additional folder to the guest VM. The first argument is
   # an identifier, the second is the path on the guest to mount the
@@ -31,12 +31,15 @@ Vagrant::Config.run do |config|
   #
   config.vm.provision :chef_solo do |chef|
      chef.cookbooks_path = "cookbooks"
-#     chef.run_list = " "
-    chef.add_recipe "openssl"
-    chef.add_recipe "mysql"
-    chef.add_recipe "apache2"
-#    chef.add_recipe "php"
-#     chef.add_role "web"
+    chef.roles_path = "roles"
+    #     chef.run_list = " "
+#    chef.add_recipe "openssl"
+    chef.add_role "ubuntu"
+    chef.add_recipe "mysql::server"
+    chef.add_recipe "apache2::mod_php5"
+#    chef.add_recipe "php::php5"
+#     chef.add_role "web_server"
+#    chef.log_level = :debug
 
      # You may also specify custom JSON attributes:
 #     chef.json = { :mysql_password => "" }
